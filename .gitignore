@@ -1,0 +1,13 @@
+/.sonar
+/src/test/java
+/src/main/java
+/src/test/scala-2.11
+/src/main/scala-2.11
+target
+*.class
+
+*.iml
+*.ipr
+*.iws
+.idea
+out
