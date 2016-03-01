@@ -1,6 +1,6 @@
 package com.city81.spark.football
 
-import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.spark.{SparkConf, SparkContext}
 import org.scalatest.{FunSpec, GivenWhenThen}
 
 class FootballDataSpec extends FunSpec with GivenWhenThen {
@@ -9,21 +9,41 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
 
   var footballData: FootballData = new FootballData
 
-  describe("A Football Data filter") {
+  describe("A Football Data processor") {
 
     it("should find the most common occurrence") {
 
       Given("a football data file")
-      val file = "./src/main/resources/1516E0.csv"
+      val file = "./src/test/resources/1516E0.csv"
 
       When("a referee filter is applied")
       val filterColumn = "Referee"
 
       Then("the most occurring referee is found")
       assertResult("M Atkinson") {
-        footballData.sort(file, filterColumn).first()._1
+        footballData.filterAndSort(file, filterColumn).first()._1
       }
 
+    }
+
+    it("should find all the home team occurrences") {
+
+      Given("a football data file")
+      val file = "./src/test/resources/1516E0.csv"
+
+      When("a home team filter is applied")
+      val team = "Arsenal"
+
+      And("a probability file is supplied")
+      val probFile = "./src/test/resources/1516E0_probability.csv"
+
+      Then("the first line will be Arsenal v West Ham")
+      assertResult("E0,09/08/15,Arsenal,West Ham,1.3,3.7,9.5") {
+        footballData.combineFiles(file, team, probFile).first()._1
+      }
+      assertResult("E0,09/08/15,Arsenal,West Ham,0,2,A,0,1,A,M Atkinson,22,8,6,4,12,9,5,4,1,3,0,0,1.29,6,12,1.28,5.75,10.5,1.33,4.8,8.3,1.29,5.5,12,1.31,5.75,12,1.3,5,11,1.3,5.75,12,45,1.33,1.29,6.16,5.53,12,10.75,39,1.71,1.64,2.3,2.22,27,-1.5,1.96,1.89,2.06,1.96") {
+        footballData.combineFiles(file, team, probFile).first()._2
+      }
     }
   }
 
