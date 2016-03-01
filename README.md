@@ -3,7 +3,7 @@ Football Spark
 
 [![Master Build](https://travis-ci.org/city81/football-spark.svg?branch=master)](https://travis-ci.org/city81/football-spark)
 
-This is a project which uses [Scala][scala] and [Spark][spark] to process data files containg football results and odds.
+This is a project which uses [Scala][scala] and [Spark][spark] to process data files containing football results and odds.
 
 
 LICENCE
@@ -21,7 +21,7 @@ TODO
     2. Analyse the results of short priced away teams 
     3. loads more ...
 3. Update to use datasframes and MLs
-4. Feed the Spark putput to the [Betfair NG API][betfair] betfair ng api project
+4. Feed the Spark output to the [Betfair NG API][betfair] project
 
 [scala]: http://www.scala-lang.org/ "Scala Language"
 [spark]: http://spark.apache.org/ "Apache Spark"
