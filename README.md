@@ -3,7 +3,7 @@ Football Spark
 
 [![Master Build](https://travis-ci.org/city81/football-spark.svg?branch=master)](https://travis-ci.org/city81/football-spark)
 
-This is a project which uses [Scala][scala] and [Spark][spark] to process data files containg football results and odds.
+This is a project which uses [Scala][scala] and [Spark][spark] to process data files containing football results and odds.
 
 
 LICENCE
