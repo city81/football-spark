@@ -32,7 +32,7 @@ class FootballData {
       .map(line => line.mkString(","))
 
     val seqRdd1Broadcast = sparkContext.broadcast(probDataRdd.collect())
-    val joined = dataRdd.mapPartitions({ iter =>
+    dataRdd.mapPartitions({ iter =>
       val seqRdd1Val = seqRdd1Broadcast.value
       for {
         t <- iter
@@ -41,8 +41,9 @@ class FootballData {
       } yield (m, t)
     }, preservesPartitioning = true)
 
-    joined
   }
+
+
 
 
 }
