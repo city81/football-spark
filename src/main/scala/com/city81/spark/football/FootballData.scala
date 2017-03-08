@@ -17,6 +17,19 @@ class FootballData {
       .sortBy(_._2, false)
   }
 
+  def filterAndGroup(file: String, filterColumn: String, groupColumn: String, filterCriteria: Double)(implicit sparkContext: SparkContext): RDD[(String, Int)] = {
+
+    val csvFile = sparkContext.textFile(file).cache()
+    val data = csvFile.map(line => line.split(",").map(elem => elem.trim))
+    val header = new FootballCSVHeader(data.take(1)(0))
+    val filterColumnPos = header.index(filterColumn)
+    data.filter(line => header(line, filterColumn) != filterColumn)
+      .filter(line => line(filterColumnPos).toDouble < filterCriteria)
+      .map(row => header(row, groupColumn))
+      .map(word => (word, 1)).reduceByKey(_ + _)
+      .sortBy(_._2, false)
+  }
+
   def combineFiles(file: String, team: String, probFile: String)(implicit sparkContext: SparkContext): RDD[(String, String)] = {
 
     val probCsvFile = sparkContext.textFile(probFile).cache()
