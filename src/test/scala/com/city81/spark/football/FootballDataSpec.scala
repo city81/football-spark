@@ -37,13 +37,15 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
       And("a probability file is supplied")
       val probFile = "./src/test/resources/1516E0_probability.csv"
 
+      val result = footballData.combineFiles(file, team, probFile)
+
       Then("the first line will be Arsenal v West Ham")
-      assertResult("E0,09/08/15,Arsenal,West Ham,1.3,3.7,9.5") {
-        footballData.combineFiles(file, team, probFile).first()._1
-      }
-      assertResult("E0,09/08/15,Arsenal,West Ham,0,2,A,0,1,A,M Atkinson,22,8,6,4,12,9,5,4,1,3,0,0,1.29,6,12,1.28,5.75,10.5,1.33,4.8,8.3,1.29,5.5,12,1.31,5.75,12,1.3,5,11,1.3,5.75,12,45,1.33,1.29,6.16,5.53,12,10.75,39,1.71,1.64,2.3,2.22,27,-1.5,1.96,1.89,2.06,1.96") {
-        footballData.combineFiles(file, team, probFile).first()._2
-      }
+        assertResult("E0,09/08/15,Arsenal,West Ham,1.3,3.7,9.5") {
+          result.first()._1
+        }
+        assertResult("E0,09/08/15,Arsenal,West Ham,0,2,A,0,1,A,M Atkinson,22,8,6,4,12,9,5,4,1,3,0,0,1.29,6,12,1.28,5.75,10.5,1.33,4.8,8.3,1.29,5.5,12,1.31,5.75,12,1.3,5,11,1.3,5.75,12,45,1.33,1.29,6.16,5.53,12,10.75,39,1.71,1.64,2.3,2.22,27,-1.5,1.96,1.89,2.06,1.96") {
+          result.first()._2
+        }
     }
   }
 
