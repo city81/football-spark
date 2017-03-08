@@ -20,7 +20,7 @@ TODO
     1. Analyse the results of derbies and their odds 
     2. Analyse the results of short priced away teams 
     3. loads more ...
-3. Update to use datasframes and MLs
+3. Update to use dataframes and MLs
 4. Feed the Spark output to the [Betfair NG API][betfair] project
 
 [scala]: http://www.scala-lang.org/ "Scala Language"
