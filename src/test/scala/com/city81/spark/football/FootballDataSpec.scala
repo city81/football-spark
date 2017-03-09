@@ -33,11 +33,11 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
 
       When("a home odds filter is applied and results are grouped")
       val filterColumn = "BbAvH"
-      val filterCriteria = 2.0
+      val filterCriteria = (2.0, 2.2)
       val groupColumn = "FTR"
 
       Then("the most occurring result is found")
-      assertResult(Array(("H", 50), ("A", 23), ("D", 21))) {
+      assertResult(Array(("H", 12), ("D", 9), ("A", 5))) {
         footballData.filterAndGroup(List(file), filterColumn, groupColumn, filterCriteria).collect()
       }
 
@@ -51,11 +51,11 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
 
       When("a home odds filter is applied and results are grouped")
       val filterColumn = "BbAvH"
-      val filterCriteria = 2.0
+      val filterCriteria = (1.6, 1.8)
       val groupColumn = "FTR"
 
       Then("the most occurring result is found")
-      assertResult(Array(("H", 255), ("D", 73), ("A", 71))) {
+      assertResult(Array(("H", 40), ("D", 22), ("A", 16))) {
         footballData.filterAndGroup(files, filterColumn, groupColumn, filterCriteria).collect()
       }
 

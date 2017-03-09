@@ -17,7 +17,7 @@ class FootballData {
       .sortBy(_._2, false)
   }
 
-  def filterAndGroup(files: List[String], filterColumn: String, groupColumn: String, filterCriteria: Double)(implicit sparkContext: SparkContext): RDD[(String, Int)] = {
+  def filterAndGroup(files: List[String], filterColumn: String, groupColumn: String, filterCriteria: (Double, Double))(implicit sparkContext: SparkContext): RDD[(String, Int)] = {
 
     val sc = sparkContext
     var rdd = sc.emptyRDD[(String, Int)]
@@ -32,7 +32,7 @@ class FootballData {
       val filterColumnPos = header.index(filterColumn)
 
       val sortedRDD = data.filter(line => header(line, filterColumn) != filterColumn)
-        .filter(line => line(filterColumnPos).toDouble < filterCriteria)
+        .filter(line => (line(filterColumnPos).toDouble > filterCriteria._1 && line(filterColumnPos).toDouble < filterCriteria._2))
         .map(row => header(row, groupColumn))
         .map(word => (word, 1)).reduceByKey(_ + _)
 
