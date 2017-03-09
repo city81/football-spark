@@ -26,7 +26,6 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
 
     }
 
-
     it("should find the number of fixtures") {
 
       Given("a football data file")
@@ -39,11 +38,28 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
 
       Then("the most occurring result is found")
       assertResult(Array(("H", 50), ("A", 23), ("D", 21))) {
-        footballData.filterAndGroup(file, filterColumn, groupColumn, filterCriteria).collect()
+        footballData.filterAndGroup(List(file), filterColumn, groupColumn, filterCriteria).collect()
       }
 
     }
 
+    it("should find the number of fixtures over several seasons") {
+
+      Given("a football data file")
+      val dir = "./src/test/resources/"
+      val files = List(dir + "1516E0.csv", dir + "1415E0.csv", dir + "1314E0.csv")
+
+      When("a home odds filter is applied and results are grouped")
+      val filterColumn = "BbAvH"
+      val filterCriteria = 2.0
+      val groupColumn = "FTR"
+
+      Then("the most occurring result is found")
+      assertResult(Array(("H", 255), ("D", 73), ("A", 71))) {
+        footballData.filterAndGroup(files, filterColumn, groupColumn, filterCriteria).collect()
+      }
+
+    }
 
     it("should find all the home team occurrences") {
 
@@ -66,6 +82,7 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
         result.first()._2
       }
     }
+
   }
 
 }

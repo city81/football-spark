@@ -17,17 +17,32 @@ class FootballData {
       .sortBy(_._2, false)
   }
 
-  def filterAndGroup(file: String, filterColumn: String, groupColumn: String, filterCriteria: Double)(implicit sparkContext: SparkContext): RDD[(String, Int)] = {
+  def filterAndGroup(files: List[String], filterColumn: String, groupColumn: String, filterCriteria: Double)(implicit sparkContext: SparkContext): RDD[(String, Int)] = {
 
-    val csvFile = sparkContext.textFile(file).cache()
-    val data = csvFile.map(line => line.split(",").map(elem => elem.trim))
-    val header = new FootballCSVHeader(data.take(1)(0))
-    val filterColumnPos = header.index(filterColumn)
-    data.filter(line => header(line, filterColumn) != filterColumn)
-      .filter(line => line(filterColumnPos).toDouble < filterCriteria)
-      .map(row => header(row, groupColumn))
-      .map(word => (word, 1)).reduceByKey(_ + _)
-      .sortBy(_._2, false)
+    val sc = sparkContext
+    var rdd = sc.emptyRDD[(String, Int)]
+
+    // files have different formats so can't pass the list into sparkContext.textFile
+
+    for (file <- files) {
+
+      val csvFile = sparkContext.textFile(file).cache()
+      val data = csvFile.map(line => line.split(",").map(elem => elem.trim))
+      val header = new FootballCSVHeader(data.take(1)(0))
+      val filterColumnPos = header.index(filterColumn)
+
+      val sortedRDD = data.filter(line => header(line, filterColumn) != filterColumn)
+        .filter(line => line(filterColumnPos).toDouble < filterCriteria)
+        .map(row => header(row, groupColumn))
+        .map(word => (word, 1)).reduceByKey(_ + _)
+
+      rdd = rdd union sortedRDD
+
+    }
+
+    // merge tuples together by key ie ("H",20) and ("H",12) becomes ("H",32)
+    rdd.groupBy(_._1).mapValues(_.map(_._2).sum).sortBy(_._2, false)
+
   }
 
   def combineFiles(file: String, team: String, probFile: String)(implicit sparkContext: SparkContext): RDD[(String, String)] = {
