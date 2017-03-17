@@ -6,8 +6,12 @@
 target
 *.class
 
+*.DS_Store
+
 *.iml
 *.ipr
 *.iws
 .idea
 out
+/src/main/scala/com/city81/spark/football/HistoricalFootballData.scala
+/src/main/scala/com/city81/spark/football/HistoricalFootballDataMatch.scala
