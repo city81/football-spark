@@ -20,7 +20,7 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
       val filterColumn = "Referee"
 
       Then("the most occurring referee is found")
-      assertResult("M Atkinson") {
+      assertResult("M Dean") {
         footballData.filterAndSort(file, filterColumn).first()._1
       }
 
@@ -37,7 +37,7 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
       val groupColumn = "FTR"
 
       Then("the most occurring result is found")
-      assertResult(Array(("H", 12), ("D", 9), ("A", 5))) {
+      assertResult(Array(("H", 16), ("D", 14), ("A", 7))) {
         footballData.filterAndGroup(List(file), filterColumn, groupColumn, filterCriteria).collect()
       }
 
@@ -55,7 +55,7 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
       val groupColumn = "FTR"
 
       Then("the most occurring result is found")
-      assertResult(Array(("H", 40), ("D", 22), ("A", 16))) {
+      assertResult(Array(("H", 50), ("D", 24), ("A", 17))) {
         footballData.filterAndGroup(files, filterColumn, groupColumn, filterCriteria).collect()
       }
 
@@ -78,7 +78,7 @@ class FootballDataSpec extends FunSpec with GivenWhenThen {
       assertResult("E0,09/08/15,Arsenal,West Ham,1.3,3.7,9.5") {
         result.first()._1
       }
-      assertResult("E0,09/08/15,Arsenal,West Ham,0,2,A,0,1,A,M Atkinson,22,8,6,4,12,9,5,4,1,3,0,0,1.29,6,12,1.28,5.75,10.5,1.33,4.8,8.3,1.29,5.5,12,1.31,5.75,12,1.3,5,11,1.3,5.75,12,45,1.33,1.29,6.16,5.53,12,10.75,39,1.71,1.64,2.3,2.22,27,-1.5,1.96,1.89,2.06,1.96") {
+      assertResult("E0,09/08/15,Arsenal,West Ham,0,2,A,0,1,A,M Atkinson,22,8,6,4,12,9,5,4,1,3,0,0,1.29,6,12,1.28,5.75,10.5,1.33,4.8,8.3,1.29,5.5,12,1.31,5.75,12,1.3,5,11,1.3,5.75,12,45,1.33,1.29,6.16,5.53,12,10.75,39,1.71,1.64,2.3,2.22,27,-1.5,1.96,1.89,2.06,1.96,1.24,6.75,15) {
         result.first()._2
       }
     }
